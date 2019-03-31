@@ -1,102 +1,83 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Mvc;
-//using ServiceLayer.Models;
-//using ServiceLayer.Services;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using ServiceLayers.DTOs;
+using ServiceLayers.Model;
+using ServiceLayers.Services;
 
-//namespace SunSD.Controllers
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class AdminController : ControllerBase
-//    {
-//        IAdminService _adminService;
+namespace SunSD.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AdminController : ControllerBase
+    {
+        private IAdminService _adminService;
+        private readonly IMapper _mapper;
 
-//        public AdminController(IAdminService adminService)
-//        {
-//            _adminService = adminService;
-//        }
+        public AdminController(IAdminService adminService, IMapper mapper)
+        {
+            _adminService = adminService;
+            _mapper = mapper;
+        }
 
+        //GetAll
+        [HttpGet]
+        public IActionResult Get()
+        {
+            var admin = _adminService.GetAll();
+            return Ok(admin);
+        }
 
-//        [HttpGet]
-//        [Route("GetAdmins")]
-//        public async Task<IActionResult> GetAdmin()
-//        {
-//            var admins = await _adminService.GetAdmins();
-//            if (admins == null)
-//            {
-//                return BadRequest();
-//            }
+        //POST Create Action Method
+        [HttpPost("Create")]
+        [AllowAnonymous]
+        public IActionResult Create([FromBody] AdminDTO adminDTO)
+        {
+            Admin admin = new Admin();
+            admin.AdminName = adminDTO.AdminName;
+            var adminEntity = _adminService.Create(admin);
+            var admins = _mapper.Map<AdminDTO>(adminEntity);
+            return Ok(admin);
+        }
 
-//            return Ok(admins);
-//        }
+        //POST UPDATE Action Method
+        [HttpPost("Update")]
+        [AllowAnonymous]
+        public IActionResult Update(int id, [FromBody]Admin admin)
+        {
+            if (ModelState.IsValid)
+            {
+                admin.Id = id;
+                //inventoryItemCategory.UpdatedBy = User.Identity.Name;
+                var AdminEntity = _adminService.Update(admin);
+                return Ok(AdminEntity);
+            }
+            return BadRequest();
+        }
 
-//        [HttpGet]
-//        [Route("GetAdmin")]
-//        public async Task<IActionResult> GetAdmin(Guid? adminId)
-//        {
-//            if (adminId == null)
-//            {
-//                return NotFound();
-//            }
+        //GET Details Action method
+        [HttpGet("Details")]
+        public IActionResult Details(int id)
+        {
+            var admin = _adminService.GetById(id);
+            if (admin == null)
+            {
+                return NotFound();
+            }
+            return Ok(admin);
+        }
 
-//            var admin = await _adminService.GetAdmin(adminId);
-//            if (admin == null)
-//            {
-//                return BadRequest();
-//            }
+        //GET Delete Action method
+        [HttpGet("Delete")]
+        public void Delete(int id)
+        {
+            _adminService.Delete(id);
+        }
 
-//            return Ok(admin);
-//        }
-
-//        [HttpPost]
-//        [Route("AddAdmin")]
-//        public async Task<IActionResult> AddAdmin([FromBody]Admin model)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                var adminId = await _adminService.AddAdmin(model);
-//                if (adminId != null)
-//                {
-//                    return Ok(adminId);
-//                }
-//                else
-//                {
-//                    return BadRequest();
-//                }
-//            }
-
-//            return BadRequest();
-//        }
-
-//        [HttpPost]
-//        [Route("DeleteAdmin")]
-//        public async Task<IActionResult> DeleteAdmin(Guid? adminId)
-//        {
-//            if (adminId == null)
-//            {
-//                return NotFound();
-//            }
-
-//            await _adminService.DeleteAdmin(adminId);
-
-//            return Ok();
-//        }
-
-//        [HttpPost]
-//        [Route("UpdateAdmin")]
-//        public async Task<IActionResult> UpdateAdmin([FromBody]Admin model)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                await _adminService.UpdateAdmin(model);
-//                return Ok();
-//            }
-
-//            return BadRequest();
-//        }
-//    }
-//}
+    }
+}
