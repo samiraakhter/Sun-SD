@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Web;
-using System.Threading.Tasks;
+using Kendo.Mvc.UI;
+using Kendo.Mvc.Extensions;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,16 +11,14 @@ using ServiceLayers.Services;
 using Microsoft.AspNetCore.Hosting.Internal;
 using System.IO;
 using ServiceLayers.Utility;
-using Microsoft.Extensions.Logging;
 using ServiceLayers;
 using ServiceLayers.Model.ViewModel;
-using System.Linq;
 
 namespace SunSD.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController : Controller
     {
         private IProductService _productService;
         [BindProperty]
@@ -39,10 +36,11 @@ namespace SunSD.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        [Produces("application/json")]
+        public JsonResult Get([DataSourceRequest]DataSourceRequest request)
         {
             var product = _productService.GetAll();
-            return Ok(product);
+            return Json(product.ToDataSourceResult(request));
         }
 
         //POST Action Method for picture

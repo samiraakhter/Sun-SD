@@ -78,7 +78,7 @@ namespace ServiceLayers.Services
             customer.MobileNo = customerParam.MobileNo;
             customer.PaymentMethod = customerParam.PaymentMethod;
             customer.PhoneNo = customerParam.PhoneNo;
-            customer.SalesManager = customerParam.SalesManager;
+            customer.FK_SalesManager = customerParam.FK_SalesManager;
             customer.IsActive = customerParam.IsActive;
             customer.FK_SalesManager = customerParam.FK_SalesManager;
             customer.EnterpriseName = customerParam.EnterpriseName;

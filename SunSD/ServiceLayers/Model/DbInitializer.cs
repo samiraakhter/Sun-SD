@@ -17,7 +17,7 @@ namespace ServiceLayers.Model
             _db = db;
         }
 
-        public async Task Seed()
+        public void Seed()
         {
 
             // Look for any Product.
@@ -214,38 +214,38 @@ namespace ServiceLayers.Model
                 };
             }
 
-            if (!_db.User.Any())
-            {
-                List<User> users = new List<User>();
-                {
-                    User user1 = new User();
-                    {
-                        user1.FirstName = "Sameera";
-                        user1.LastName = "Akhtar";
-                        user1.Username = "sameera1";
-                        IUserService userService = new UserService(_db);
-                        userService.Create(user1, "sameera1");
-                    }
+            //if (!_db.User.Any())
+            //{
+            //    List<User> users = new List<User>();
+            //    {
+            //        User user1 = new User();
+            //        {
+            //            user1.FirstName = "Sameera";
+            //            user1.LastName = "Akhtar";
+            //            user1.Username = "sameera1";
+            //            IUserService userService = new UserService(_db);
+            //            userService.Create(user1, "sameera1");
+            //        }
 
-                    User user2 = new User();
-                    {
-                        user2.FirstName = "Urooj";
-                        user2.LastName = "Irfat";
-                        user2.Username = "urooj1";
-                        IUserService userService = new UserService(_db);
-                        userService.Create(user2, "sameera1");
-                    }
+            //        User user2 = new User();
+            //        {
+            //            user2.FirstName = "Urooj";
+            //            user2.LastName = "Irfat";
+            //            user2.Username = "urooj1";
+            //            IUserService userService = new UserService(_db);
+            //            userService.Create(user2, "sameera1");
+            //        }
 
-                    User user3 = new User();
-                    {
-                        user3.FirstName = "Zehra";
-                        user3.LastName = "Aamir";
-                        user3.Username = "zehra1";
-                        IUserService userService = new UserService(_db);
-                        userService.Create(user3, "sameera1");
-                    }
-                }
-            }
+            //        User user3 = new User();
+            //        {
+            //            user3.FirstName = "Zehra";
+            //            user3.LastName = "Aamir";
+            //            user3.Username = "zehra1";
+            //            IUserService userService = new UserService(_db);
+            //            userService.Create(user3, "sameera1");
+            //        }
+            //    }
+            //}
 
             if(!_db.Role.Any())
             {
@@ -279,15 +279,7 @@ namespace ServiceLayers.Model
                 
             }
 
-            if(!_db.SalesManager.Any())
-            {
-                List<SalesManager> salesManagers = new List<SalesManager>();
-                SalesManager salesManager1 = new SalesManager();
-                {
-                    salesManager1.UserName = "sameera1";
-                    
-                }
-            }
+         
         }
     }
 }

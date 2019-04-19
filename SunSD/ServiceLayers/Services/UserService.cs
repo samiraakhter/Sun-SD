@@ -27,12 +27,9 @@ namespace ServiceLayers.Services
         private ApplicationDbContext _context;
         private readonly AppSettings _appSettings;
         private IMapper _mapper;
-        public UserService(ApplicationDbContext context)
+        public UserService(ApplicationDbContext context, IMapper mapper, IOptions<AppSettings> appSettings)
         {
             _context = context;
-        }
-        public UserService(IMapper mapper, IOptions<AppSettings> appSettings)
-        {
             _appSettings = appSettings.Value;
             _mapper = mapper;
         }

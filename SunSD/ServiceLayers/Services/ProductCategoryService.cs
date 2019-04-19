@@ -17,7 +17,7 @@ namespace ServiceLayers.Services
     public class ProductCategoryService : IProductCategoryService
     {
         private readonly ApplicationDbContext _db;
-        private readonly User user;
+       // private readonly User user;
 
         public ProductCategoryService(ApplicationDbContext db)
         {

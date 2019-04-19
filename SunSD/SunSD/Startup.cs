@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using ServiceLayers.Helpers;
 using ServiceLayers.Model;
 using ServiceLayers.Services;
+using Newtonsoft.Json.Serialization;
 
 namespace SunSD
 {
@@ -115,6 +116,14 @@ namespace SunSD
             services.AddScoped<ISalesOrderService, SalesOrderService>();
             services.AddScoped<ISalesPersonService, SalesPersonService>();
             services.AddTransient<DbInitializer>();
+
+            services
+        .AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+        .AddJsonOptions(options =>
+            options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+
+            // Add Kendo UI services to the services container
+            services.AddKendo();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -138,7 +147,8 @@ namespace SunSD
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
-            Seeder.Seed().Wait();
+            Seeder.Seed();
+          //   app.UseKendo(env);
         }
     }
 }

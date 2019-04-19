@@ -15,7 +15,7 @@ namespace ServiceLayers.Model
         public int SalesManagerIdFk { get; set; }
 
         [ForeignKey("SalesManagerIdFk")]
-        public virtual SalesManager SalesManager { get; set; }
+        public virtual User User { get; set; }
        // public int? SalesManagerIdFk { get; set; }
         
         public string SalesManagerAssign { get; set; }
